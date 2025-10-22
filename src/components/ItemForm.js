@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 
-function ItemForm() {
+function ItemForm({ onItemFormSubmit }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Produce");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const newItem = {
+      id: Date.now(), // temporary unique ID
+      name,
+      category,
+      isInCart: false,
+    };
+
+    onItemFormSubmit(newItem); // ✅ call the prop function from parent
+    setName(""); // reset form
+    setCategory("Produce");
+  }
+
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
